@@ -12,12 +12,18 @@
 <body>
   <div class="app-shell">
     
+    <!-- Backdrop for mobile drawer -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
     <!-- LEFT SIDEBAR: RECENT SCRAPES & MINI SAAS UPGRADE -->
-    <aside class="app-sidebar">
+    <aside class="app-sidebar" id="appSidebar">
       <div class="sidebar-top">
         <div class="brand-section">
-          <div class="brand-logo">⚡</div>
-          <span class="brand-title">LocalReach</span>
+          <div style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="brand-logo">⚡</div>
+            <span class="brand-title">LocalReach</span>
+          </div>
+          <button class="btn-sidebar-close" id="btnSidebarClose" aria-label="Close menu">✕</button>
         </div>
 
         <button class="btn-new-search" id="btnSidebarNewSearch">
@@ -54,14 +60,26 @@
       
       <!-- TOP SAAS BAR -->
       <header class="saas-top-bar">
-        <div class="credits-pill" id="topCreditsPill">
-          <span>🪙</span>
-          <span id="topCreditsText">130 / 150 Credits</span>
+        <div class="top-bar-left">
+          <button class="btn-mobile-menu" id="btnMobileMenu" aria-label="Open menu">
+            <span>☰</span>
+          </button>
+          <div class="mobile-brand-title">
+            <span class="brand-logo" style="width: 26px; height: 26px; font-size: 0.85rem;">⚡</span>
+            <span>LocalReach</span>
+          </div>
         </div>
 
-        <div class="user-profile-chip">
-          <div class="user-avatar-circle" id="userAvatarText">B</div>
-          <span id="userNameText">Brahman</span>
+        <div class="top-bar-right">
+          <div class="credits-pill" id="topCreditsPill">
+            <span>🪙</span>
+            <span id="topCreditsText">130 / 150 Credits</span>
+          </div>
+
+          <div class="user-profile-chip">
+            <div class="user-avatar-circle" id="userAvatarText">B</div>
+            <span id="userNameText">Brahman</span>
+          </div>
         </div>
       </header>
 

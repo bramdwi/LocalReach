@@ -34,6 +34,10 @@ const dom = {
   btnSidebarUpgrade: document.getElementById('btnSidebarUpgrade'),
 
   // Sidebar
+  appSidebar: document.getElementById('appSidebar'),
+  btnMobileMenu: document.getElementById('btnMobileMenu'),
+  btnSidebarClose: document.getElementById('btnSidebarClose'),
+  sidebarBackdrop: document.getElementById('sidebarBackdrop'),
   recentScrapesList: document.getElementById('recentScrapesList'),
   btnSidebarNewSearch: document.getElementById('btnSidebarNewSearch'),
   btnOpenSettings: document.getElementById('btnOpenSettings'),
@@ -167,6 +171,11 @@ function initEventListeners() {
   dom.btnCancelSettings.addEventListener('click', () => closeModal(dom.settingsModal));
   dom.btnSaveSettings.addEventListener('click', handleSaveSettings);
 
+  // Mobile Sidebar Toggle
+  if (dom.btnMobileMenu) dom.btnMobileMenu.addEventListener('click', openMobileSidebar);
+  if (dom.btnSidebarClose) dom.btnSidebarClose.addEventListener('click', closeMobileSidebar);
+  if (dom.sidebarBackdrop) dom.sidebarBackdrop.addEventListener('click', closeMobileSidebar);
+
   // Settings Tabs
   dom.modalTabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -174,6 +183,16 @@ function initEventListeners() {
       showSettingsTab(tab);
     });
   });
+}
+
+function openMobileSidebar() {
+  if (dom.appSidebar) dom.appSidebar.classList.add('mobile-open');
+  if (dom.sidebarBackdrop) dom.sidebarBackdrop.classList.add('active');
+}
+
+function closeMobileSidebar() {
+  if (dom.appSidebar) dom.appSidebar.classList.remove('mobile-open');
+  if (dom.sidebarBackdrop) dom.sidebarBackdrop.classList.remove('active');
 }
 
 // ===========================================================================
@@ -225,6 +244,7 @@ async function handleUpgrade(planName) {
 // View Controllers
 // ===========================================================================
 function showHomeView() {
+  closeMobileSidebar();
   state.currentView = 'home';
   dom.sectionHomeCanvas.style.display = 'flex';
   dom.sectionResultsView.style.display = 'none';
@@ -232,10 +252,12 @@ function showHomeView() {
 }
 
 function showResultsView() {
+  closeMobileSidebar();
   state.currentView = 'results';
   dom.sectionHomeCanvas.style.display = 'none';
   dom.sectionResultsView.style.display = 'flex';
 }
+
 
 function showSettingsTab(tabName) {
   dom.modalTabBtns.forEach(b => {
