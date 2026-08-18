@@ -512,6 +512,16 @@ async def update_settings(req: UpdateSettingsRequest):
     return {"status": "ok", "message": "Settings saved successfully"}
 
 
+@app.get("/style.css")
+async def serve_style():
+    return FileResponse(WEB_DIR / "style.css", media_type="text/css")
+
+
+@app.get("/app.js")
+async def serve_app_js():
+    return FileResponse(WEB_DIR / "app.js", media_type="application/javascript")
+
+
 @app.get("/", response_class=HTMLResponse)
 async def serve_index():
     index_file = WEB_DIR / "index.html"
