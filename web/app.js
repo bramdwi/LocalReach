@@ -395,11 +395,11 @@ function renderBatchResults(data) {
     const socialBadges = Object.keys(socials).map(n => `<span style="font-size: 0.7rem; padding: 1px 4px; background: #f1f5f9; border-radius: 3px;">${n}</span>`).join(' ');
 
     return `
-      <tr onclick="openLeadDrawer(${idx})">
-        <td>
+      <tr class="lead-data-row" onclick="openLeadDrawer(${idx})">
+        <td class="cell-score">
           <span class="score-pill ${scoreClass}">★ ${score}/5</span>
         </td>
-        <td>
+        <td class="cell-status">
           <select class="lead-status-select status-${currentStatus}" onclick="event.stopPropagation()" onchange="handleStatusChange(${idx}, this.value)">
             <option value="new" ${currentStatus === 'new' ? 'selected' : ''}>New</option>
             <option value="contacted" ${currentStatus === 'contacted' ? 'selected' : ''}>Contacted</option>
@@ -407,31 +407,33 @@ function renderBatchResults(data) {
             <option value="closed" ${currentStatus === 'closed' ? 'selected' : ''}>Closed</option>
           </select>
         </td>
-        <td style="max-width: 260px;">
-          <div style="font-weight: 700; color: #0f172a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+        <td class="cell-company">
+          <div class="company-name-title">
             ${escapeHtml(lead.business_name || 'Business')}
           </div>
-          <div style="font-size: 0.74rem; color: #64748b;">
+          <div class="company-sub-meta">
             ${escapeHtml(lead.category || 'Local')} • ⭐ ${lead.rating || 'N/A'} (${lead.reviews_count || 0})
           </div>
         </td>
-        <td>
+        <td class="cell-contacts">
           ${contactStr}
           ${phoneStr}
         </td>
-        <td>
+        <td class="cell-web">
           ${webStr}
-          <div style="margin-top: 3px;">${socialBadges}</div>
+          <div class="social-badges-wrap" style="margin-top: 3px;">${socialBadges}</div>
         </td>
-        <td>
-          <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation(); openLeadDrawer(${idx});">
-            Inspect Pitch →
+        <td class="cell-action">
+          <button class="btn btn-secondary btn-sm btn-inspect-pitch" onclick="event.stopPropagation(); openLeadDrawer(${idx});">
+            <span>Inspect Pitch & Intel</span>
+            <span style="font-weight: bold;">→</span>
           </button>
         </td>
       </tr>
     `;
   }).join('');
 }
+
 
 // ===========================================================================
 // Lead Status Pipeline Updater

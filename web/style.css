@@ -825,6 +825,30 @@ body {
   background: #f8fafc;
 }
 
+.company-name-title {
+  font-weight: 700;
+  color: #0f172a;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.company-sub-meta {
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.btn-inspect-pitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+
 /* Lead Status Select */
 .lead-status-select {
   padding: 0.2rem 0.5rem;
@@ -1340,24 +1364,133 @@ body {
     font-size: 1.15rem;
   }
 
-  /* Leads Table Horizontal Scroll */
+  /* Leads Table -> Responsive Mobile Cards */
   .leads-table-card {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: var(--radius-sm);
-    width: 100%;
-    margin-top: 0.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow: visible;
+    margin-top: 0.75rem;
   }
 
   .leads-table {
-    min-width: 680px;
-    font-size: 0.78rem;
+    min-width: 0 !important;
+    width: 100% !important;
+    display: block;
   }
 
-  .leads-table th, 
-  .leads-table td {
-    padding: 0.65rem 0.75rem;
+  .leads-table thead {
+    display: none;
   }
+
+  .leads-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .leads-table tbody tr.lead-data-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .leads-table tbody tr.lead-data-row:hover {
+    border-color: var(--border-focus);
+    box-shadow: var(--shadow-card);
+  }
+
+  .leads-table td {
+    padding: 0 !important;
+    border: none !important;
+    vertical-align: top;
+  }
+
+  .leads-table td.cell-score {
+    grid-column: 1 / 2;
+    display: flex;
+    align-items: center;
+  }
+
+  .leads-table td.cell-status {
+    grid-column: 2 / 3;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .leads-table td.cell-company {
+    grid-column: 1 / 3;
+    padding-top: 0.35rem !important;
+    border-top: 1px dashed var(--border-subtle) !important;
+  }
+
+  .leads-table td.cell-company .company-name-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    white-space: normal !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    line-height: 1.35;
+    word-break: break-word;
+  }
+
+  .leads-table td.cell-company .company-sub-meta {
+    font-size: 0.78rem;
+    margin-top: 0.2rem;
+    color: var(--text-secondary);
+  }
+
+  .leads-table td.cell-contacts {
+    grid-column: 1 / 3;
+    background: #f8fafc;
+    padding: 0.65rem 0.85rem !important;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .leads-table td.cell-web {
+    grid-column: 1 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .leads-table td.cell-action {
+    grid-column: 1 / 3;
+    margin-top: 0.2rem;
+  }
+
+  .leads-table td.cell-action .btn-inspect-pitch {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    font-size: 0.84rem;
+    font-weight: 700;
+    justify-content: center;
+    background: #0f172a;
+    color: #ffffff;
+    border-radius: var(--radius-xs);
+  }
+
+  .leads-table td.cell-action .btn-inspect-pitch:hover {
+    background: var(--accent-brand-hover);
+  }
+
 
   /* Slide-over Drawer (Full Width Mobile) */
   .slide-drawer {
