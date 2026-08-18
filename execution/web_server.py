@@ -461,53 +461,71 @@ async def export_csv(payload: Dict[str, Any]):
 
 @app.post("/api/settings")
 async def update_settings(req: UpdateSettingsRequest):
-    env_path = PROJECT_ROOT / ".env"
-    lines = []
-    if env_path.exists():
-        with open(env_path, "r", encoding="utf-8") as f:
-            lines = f.readlines()
-
-    def set_kv(key, val):
-        nonlocal lines
-        if val is None:
-            return
-        found = False
-        new_lines = []
-        for l in lines:
-            if re.match(rf"^{key}\s*=", l):
-                new_lines.append(f"{key}={val}\n")
-                found = True
-            else:
-                new_lines.append(l)
-        if not found:
-            new_lines.append(f"{key}={val}\n")
-        lines = new_lines
-
+    # 1. Update live os.environ
     if req.serpapi_key is not None:
-        set_kv("SERPAPI_KEY", req.serpapi_key.strip())
         os.environ["SERPAPI_KEY"] = req.serpapi_key.strip()
     if req.openai_api_key is not None:
-        set_kv("OPENAI_API_KEY", req.openai_api_key.strip())
         os.environ["OPENAI_API_KEY"] = req.openai_api_key.strip()
     if req.google_sheet_id is not None:
-        set_kv("GOOGLE_SHEET_ID", req.google_sheet_id.strip())
         os.environ["GOOGLE_SHEET_ID"] = req.google_sheet_id.strip()
 
-    with open(env_path, "w", encoding="utf-8") as f:
-        f.writelines(lines)
+    # 2. Attempt to persist into .env if filesystem is writable
+    env_path = PROJECT_ROOT / ".env"
+    try:
+        lines = []
+        if env_path.exists():
+            with open(env_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
 
-    # Save persona settings into state
+        def set_kv(key, val):
+            nonlocal lines
+            if val is None:
+                return
+            found = False
+            new_lines = []
+            for l in lines:
+                if re.match(rf"^{key}\s*=", l):
+                    new_lines.append(f"{key}={val}\n")
+                    found = True
+                else:
+                    new_lines.append(l)
+            if not found:
+                new_lines.append(f"{key}={val}\n")
+            lines = new_lines
+
+        if req.serpapi_key is not None:
+            set_kv("SERPAPI_KEY", req.serpapi_key.strip())
+        if req.openai_api_key is not None:
+            set_kv("OPENAI_API_KEY", req.openai_api_key.strip())
+        if req.google_sheet_id is not None:
+            set_kv("GOOGLE_SHEET_ID", req.google_sheet_id.strip())
+
+        with open(env_path, "w", encoding="utf-8") as f:
+            f.writelines(lines)
+    except Exception as e:
+        logger.info(f"Skipping .env write on serverless environment: {e}")
+
+    # 3. Save persona & BYOK settings into writable state
     state_data = get_saas_state()
-    if req.sender_name:
+    if "settings" not in state_data:
+        state_data["settings"] = {}
+    if req.sender_name is not None:
         state_data["settings"]["sender_name"] = req.sender_name
-    if req.company_name:
+    if req.company_name is not None:
         state_data["settings"]["company_name"] = req.company_name
-    if req.value_prop:
+    if req.value_prop is not None:
         state_data["settings"]["value_prop"] = req.value_prop
+    if req.serpapi_key is not None:
+        state_data["settings"]["serpapi_key"] = req.serpapi_key.strip()
+    if req.openai_api_key is not None:
+        state_data["settings"]["openai_api_key"] = req.openai_api_key.strip()
+    if req.google_sheet_id is not None:
+        state_data["settings"]["google_sheet_id"] = req.google_sheet_id.strip()
+
     save_saas_state(state_data)
 
-    load_env()
     return {"status": "ok", "message": "Settings saved successfully"}
+
 
 
 @app.get("/style.css")

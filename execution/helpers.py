@@ -29,19 +29,15 @@ TMP_DIR.mkdir(parents=True, exist_ok=True)
 # ---------------------------------------------------------------------------
 
 def load_env() -> None:
-    """Load .env from project root. Installs python-dotenv on first use."""
+    """Load .env from project root if available."""
     try:
         from dotenv import load_dotenv
-    except ImportError:
-        import subprocess
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "python-dotenv", "-q"])
-        from dotenv import load_dotenv
+        env_path = PROJECT_ROOT / ".env"
+        if env_path.exists():
+            load_dotenv(env_path)
+    except Exception as e:
+        pass
 
-    env_path = PROJECT_ROOT / ".env"
-    if env_path.exists():
-        load_dotenv(env_path)
-    else:
-        logging.warning(".env file not found at %s — using system env vars only.", env_path)
 
 
 # ---------------------------------------------------------------------------
