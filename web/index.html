@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocalReach • Outbound GMB Lead Engine Mini SaaS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    
+    <!-- LEFT SIDEBAR: RECENT SCRAPES & MINI SAAS UPGRADE -->
+    <aside class="app-sidebar">
+      <div class="sidebar-top">
+        <div class="brand-section">
+          <div class="brand-logo">⚡</div>
+          <span class="brand-title">LocalReach</span>
+        </div>
+
+        <button class="btn-new-search" id="btnSidebarNewSearch">
+          <span>+</span>
+          <span>New Search</span>
+        </button>
+
+        <div class="recent-section-header">Recent Scrapes</div>
+        <div class="recent-list" id="recentScrapesList">
+          <div style="font-size: 0.76rem; color: #94a3b8; padding: 0.5rem 0.25rem;">Loading history...</div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <!-- SaaS Upgrade CTA -->
+        <div class="sidebar-upgrade-card">
+          <h4><span>⚡</span> <span id="sidePlanName">Pro Plan</span></h4>
+          <p>Get verified B2B emails, social intel & automated cold pitches.</p>
+          <button class="btn-sidebar-upgrade" id="btnSidebarUpgrade">Upgrade Plan</button>
+        </div>
+
+        <button class="btn-sidebar-settings" id="btnOpenSettings">
+          <span style="display: flex; align-items: center; gap: 0.5rem;">
+            <span>⚙️</span>
+            <span>Settings & System</span>
+          </span>
+          <span style="font-size: 0.72rem; color: #94a3b8;">v2.0 SaaS</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN STAGE -->
+    <main class="main-stage">
+      
+      <!-- TOP SAAS BAR -->
+      <header class="saas-top-bar">
+        <div class="credits-pill" id="topCreditsPill">
+          <span>🪙</span>
+          <span id="topCreditsText">130 / 150 Credits</span>
+        </div>
+
+        <div class="user-profile-chip">
+          <div class="user-avatar-circle" id="userAvatarText">B</div>
+          <span id="userNameText">Brahman</span>
+        </div>
+      </header>
+
+      <!-- STATE 1: HOME SEARCH CANVAS (Screenshot Layout) -->
+      <section class="home-canvas" id="sectionHomeCanvas">
+        
+        <div class="greeting-header">
+          <h1 id="greetingNameTitle">Hi Brahman 👋</h1>
+          <p>Who would you like to reach out to today?</p>
+        </div>
+
+        <!-- Big Conversational Prompt Box -->
+        <div class="prompt-box-card">
+          <textarea 
+            class="prompt-textarea" 
+            id="mainPromptInput" 
+            placeholder="Build me a list of, or drop a CSV..."
+            rows="2"
+          ></textarea>
+
+          <div class="prompt-box-bottom">
+            <div class="prompt-actions-left">
+              <button class="btn-icon-clip" title="Attach file or CSV">📎</button>
+              <div class="prompt-limit-pills">
+                <button class="limit-pill active" data-limit="10">10 leads</button>
+                <button class="limit-pill" data-limit="20">20 leads</button>
+                <button class="limit-pill" data-limit="50">50 leads</button>
+              </div>
+            </div>
+
+            <button class="btn-submit-arrow" id="btnSubmitPrompt" title="Start Outbound Search">
+              ↑
+            </button>
+          </div>
+        </div>
+
+        <!-- Starting Points (4 Cards Grid) -->
+        <div class="starting-points-section">
+          <div class="starting-points-title">Here are a few starting points</div>
+
+          <div class="starting-points-grid">
+            
+            <!-- Card 1: Recently Funded -->
+            <div class="signal-card" data-query="jasa pembuatan furniture di daerah cinere, depok">
+              <div class="signal-card-header">
+                <h3>Recently Funded</h3>
+                <p>Fresh capital means new budgets and open decisions. Reach them while the money is moving.</p>
+              </div>
+
+              <table class="mini-mock-table">
+                <thead>
+                  <tr>
+                    <th>Company</th>
+                    <th>Founder</th>
+                    <th>Round</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;"><span class="signal-badge badge-funding">Funding Signal</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Card 2: Currently Hiring -->
+            <div class="signal-card" data-query="dentists in Jakarta">
+              <div class="signal-card-header">
+                <h3>Currently Hiring</h3>
+                <p>An open role means something isn't working yet. Get in front of them before they hire someone to fix it.</p>
+              </div>
+
+              <table class="mini-mock-table">
+                <thead>
+                  <tr>
+                    <th>Company</th>
+                    <th>VP Name</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;"><span class="signal-badge badge-hiring">Hiring Signal</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Card 3: Rapidly Growing -->
+            <div class="signal-card" data-query="interior design in Depok">
+              <div class="signal-card-header">
+                <h3>Rapidly Growing</h3>
+                <p>Growth breaks tools and processes. Target companies at the exact moment their old way of operating stops keeping up.</p>
+              </div>
+
+              <table class="mini-mock-table">
+                <thead>
+                  <tr>
+                    <th>Company</th>
+                    <th>Contact</th>
+                    <th>Growth</th>
+                    <th>Website</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;"><span class="signal-badge badge-growth">Growth Signal</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Card 4: New Leadership -->
+            <div class="signal-card" data-query="contractors in Jakarta">
+              <div class="signal-card-header">
+                <h3>New Leadership</h3>
+                <p>A new exec means old vendors are up for grabs. The first 90 days is when they move fast and change everything.</p>
+              </div>
+
+              <table class="mini-mock-table">
+                <thead>
+                  <tr>
+                    <th>Company</th>
+                    <th>Executive</th>
+                    <th>Title</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;"><span class="signal-badge badge-leadership">Leadership Signal</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- STATE 2: RESULTS & LEADS VIEW (Lead Pipeline & Pitch Review) -->
+      <section class="results-view" id="sectionResultsView" style="display: none;">
+        
+        <div class="results-header-bar">
+          <button class="btn-back-home" id="btnBackToHome">
+            <span>←</span>
+            <span>Back to Search</span>
+          </button>
+
+          <div style="display: flex; gap: 0.6rem;">
+            <button class="btn btn-secondary btn-sm" id="btnExportCsv">⬇️ Export CSV</button>
+            <button class="btn btn-primary btn-sm" id="btnPushSheets">📊 Push to Sheets</button>
+          </div>
+        </div>
+
+        <!-- Live Progress Banner -->
+        <div class="live-progress-banner" id="liveProgressBanner" style="display: none;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600;">
+            <span id="liveProgressStage">Scraping Google Maps via SerpAPI...</span>
+            <span id="liveProgressPercent">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="liveProgressBarFill"></div>
+          </div>
+          <div style="font-size: 0.72rem; color: #64748b; font-family: var(--font-mono);" id="liveProgressDetail">
+            Initializing pipeline...
+          </div>
+        </div>
+
+        <!-- Results Info & Stats -->
+        <div>
+          <h2 style="font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em;" id="resultsBatchTitle">Prospects Batch</h2>
+          <p style="font-size: 0.82rem; color: #64748b; margin-top: 2px;" id="resultsBatchSubtitle">0 prospects loaded</p>
+        </div>
+
+        <div class="results-stats-bar">
+          <div class="stat-box">
+            <span class="stat-box-label">Total Prospects</span>
+            <span class="stat-box-num" id="resMetricTotal">0</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-box-label">Verified Emails</span>
+            <span class="stat-box-num" id="resMetricEmail">0%</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-box-label">High-Intent (4–5★)</span>
+            <span class="stat-box-num" id="resMetricHigh">0</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-box-label">Social Intel</span>
+            <span class="stat-box-num" id="resMetricSocial">0%</span>
+          </div>
+        </div>
+
+        <!-- Leads Table -->
+        <div class="leads-table-card">
+          <table class="leads-table">
+            <thead>
+              <tr>
+                <th>Score</th>
+                <th>Status</th>
+                <th>Company & Rating</th>
+                <th>Direct Contacts</th>
+                <th>Website & Socials</th>
+                <th>Outreach Pitch</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody">
+              <!-- Injected dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- SLIDE-OVER PITCH & INTEL DRAWER -->
+  <div class="slide-drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="slide-drawer" id="reviewDrawer">
+    <div class="drawer-header">
+      <div>
+        <h3 id="drawerLeadName" style="font-size: 1.05rem; font-weight: 700;">Business Name</h3>
+        <p id="drawerLeadSub" style="font-size: 0.76rem; color: #64748b;">Category • Rating</p>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="score-pill score-high" id="drawerScorePill">★ 4/5</span>
+        <button class="btn btn-secondary btn-sm" id="btnCloseDrawer">✕</button>
+      </div>
+    </div>
+
+    <div class="drawer-body" id="drawerBody">
+      <!-- Injected dynamically via JS -->
+    </div>
+
+    <div class="drawer-footer">
+      <button class="btn btn-secondary btn-sm" id="btnCopyPitchBottom">📋 Copy Pitch Text</button>
+      <div id="drawerActionBtnContainer">
+        <!-- Injected mailto or action button -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SAAS SUBSCRIPTION & PRICING MODAL -->
+  <div class="modal-backdrop" id="pricingModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size: 1.05rem; font-weight: 800;">⚡ Upgrade Your LocalReach Plan</h3>
+        <button class="btn btn-secondary btn-sm" id="btnClosePricingModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.82rem; color: #64748b;">Scale your client acquisition pipeline with verified B2B contacts, Google Sheets sync, and AI cold emails.</p>
+        
+        <div class="pricing-grid">
+          <!-- Starter -->
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h4>Starter</h4>
+              <div class="pricing-price">$29<span>/mo</span></div>
+              <div style="font-size: 0.72rem; color: #64748b;">100 Credits / mo</div>
+            </div>
+            <div class="pricing-features">
+              <div>✓ 100 GMB prospects</div>
+              <div>✓ Email & Social extraction</div>
+              <div>✓ Quality scoring (1-5★)</div>
+              <div>✓ CSV Deliverables</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="handleUpgrade('Starter')">Select Starter</button>
+          </div>
+
+          <!-- Pro -->
+          <div class="pricing-card featured">
+            <div class="pricing-badge">MOST POPULAR</div>
+            <div class="pricing-header">
+              <h4>Pro</h4>
+              <div class="pricing-price">$79<span>/mo</span></div>
+              <div style="font-size: 0.72rem; color: #64748b;">350 Credits / mo</div>
+            </div>
+            <div class="pricing-features">
+              <div>✓ 350 GMB prospects</div>
+              <div>✓ AI Cold Email Personalization</div>
+              <div>✓ Unlimited Search History</div>
+              <div>✓ Priority Email Extraction</div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="handleUpgrade('Pro')">Upgrade to Pro</button>
+          </div>
+
+          <!-- Agency -->
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h4>Agency</h4>
+              <div class="pricing-price">$199<span>/mo</span></div>
+              <div style="font-size: 0.72rem; color: #64748b;">1,000 Credits / mo</div>
+            </div>
+            <div class="pricing-features">
+              <div>✓ 1,000 GMB prospects</div>
+              <div>✓ Direct Google Sheets 2-Way Sync</div>
+              <div>✓ Custom Outreach Personas</div>
+              <div>✓ Dedicated Pipeline Support</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="handleUpgrade('Agency')">Select Agency</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS & SYSTEM MODAL -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size: 1rem; font-weight: 700;">⚙️ Settings & System Configuration</h3>
+        <button class="btn btn-secondary btn-sm" id="btnCloseSettingsModal">✕</button>
+      </div>
+
+      <div class="modal-nav-tabs">
+        <button class="modal-tab-btn active" data-tab="api">API Keys</button>
+        <button class="modal-tab-btn" data-tab="persona">Outbound Persona</button>
+        <button class="modal-tab-btn" data-tab="sheets">Google Sheets</button>
+        <button class="modal-tab-btn" data-tab="directives">DOE Directives</button>
+      </div>
+
+      <div class="modal-body" id="settingsModalBody">
+        
+        <!-- Tab 1: API Keys -->
+        <div class="settings-tab-pane active" id="stab-api">
+          <div class="form-group">
+            <label class="form-label" for="settingSerpKey">SerpAPI Key (Required for Maps scraping)</label>
+            <input type="password" class="form-control" id="settingSerpKey" placeholder="Enter key...">
+            <span style="font-size: 0.72rem; color: #64748b;">Get 100 free searches/mo at <a href="https://serpapi.com" target="_blank" style="color: #2563eb;">serpapi.com</a></span>
+          </div>
+
+          <div class="form-group" style="margin-top: 1rem;">
+            <label class="form-label" for="settingOpenAiKey">OpenAI API Key (Optional for AI cold pitches)</label>
+            <input type="password" class="form-control" id="settingOpenAiKey" placeholder="sk-...">
+          </div>
+        </div>
+
+        <!-- Tab 2: Persona -->
+        <div class="settings-tab-pane" id="stab-persona" style="display: none;">
+          <div class="form-group">
+            <label class="form-label" for="settingSenderName">Sender Name</label>
+            <input type="text" class="form-control" id="settingSenderName" value="Brahman">
+          </div>
+          <div class="form-group" style="margin-top: 0.8rem;">
+            <label class="form-label" for="settingCompanyName">Agency / Company Name</label>
+            <input type="text" class="form-control" id="settingCompanyName" value="Bond Growth Agency">
+          </div>
+          <div class="form-group" style="margin-top: 0.8rem;">
+            <label class="form-label" for="settingValueProp">Value Proposition / Pitch Offer</label>
+            <input type="text" class="form-control" id="settingValueProp" value="custom client acquisition & brand scaling systems">
+          </div>
+        </div>
+
+        <!-- Tab 3: Google Sheets -->
+        <div class="settings-tab-pane" id="stab-sheets" style="display: none;">
+          <div class="form-group">
+            <label class="form-label" for="settingGoogleSheet">Default Google Sheet ID / URL</label>
+            <input type="text" class="form-control" id="settingGoogleSheet" placeholder="Spreadsheet ID or full URL">
+            <span style="font-size: 0.72rem; color: #64748b;">Target spreadsheet for automated deliverable syncing.</span>
+          </div>
+        </div>
+
+        <!-- Tab 4: Directives SOPs -->
+        <div class="settings-tab-pane" id="stab-directives" style="display: none;">
+          <div style="font-size: 0.8rem; line-height: 1.6; color: #475569; display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="background: #f8fafc; padding: 0.85rem; border-radius: var(--radius-xs); border: 1px solid var(--border-subtle);">
+              <strong>📜 Directive: Scrape GMB Leads</strong><br>
+              <code>execution/scrape_gmb_leads.py</code> queries Google Maps via SerpAPI for target categories & locations.
+            </div>
+            <div style="background: #f8fafc; padding: 0.85rem; border-radius: var(--radius-xs); border: 1px solid var(--border-subtle);">
+              <strong>⚡ Directive: Enrich GMB Leads</strong><br>
+              <code>execution/enrich_gmb_leads.py</code> extracts emails, socials, assigns rubric scores (1-5★), and drafts customized outreach emails.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btnCancelSettings">Close</button>
+        <button class="btn btn-primary" id="btnSaveSettings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

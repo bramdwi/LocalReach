@@ -1,0 +1,34 @@
+# ============================================================
+# DOE System — .gitignore
+# ============================================================
+
+# --- Secrets & credentials ---
+.env
+credentials.json
+token.json
+token*.json
+OAuth client*.json
+*client_secret*.json
+
+# --- Temporary processing files ---
+.tmp/
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
