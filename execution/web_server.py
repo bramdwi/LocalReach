@@ -30,16 +30,14 @@ from pydantic import BaseModel
 
 # Bootstrap paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-TMP_DIR = PROJECT_ROOT / ".tmp"
-TMP_DIR.mkdir(exist_ok=True)
 WEB_DIR = PROJECT_ROOT / "web"
-WEB_DIR.mkdir(exist_ok=True)
 
 sys.path.insert(0, str(PROJECT_ROOT / "execution"))
 from helpers import load_env, get_logger, TMP_DIR
 
 load_env()
 logger = get_logger("web_server")
+
 
 app = FastAPI(title="LocalReach Lead Engine Mini SaaS", version="2.0.0")
 app.mount("/static", StaticFiles(directory=str(WEB_DIR)), name="static")

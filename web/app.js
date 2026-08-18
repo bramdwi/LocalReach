@@ -200,8 +200,7 @@ function closeMobileSidebar() {
 // ===========================================================================
 async function loadUserProfile() {
   try {
-    const res = await fetch('/api/user');
-    const data = await res.json();
+    const data = await fetchJson('/api/user');
     state.user = data.user || state.user;
 
     const remaining = Math.max(0, state.user.credits_total - state.user.credits_used);
@@ -223,13 +222,12 @@ async function loadUserProfile() {
 
 async function handleUpgrade(planName) {
   try {
-    const res = await fetch('/api/user/upgrade', {
+    const data = await fetchJson('/api/user/upgrade', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ plan: planName })
     });
 
-    const data = await res.json();
     if (data.status === 'ok') {
       showToast(`🎉 Upgraded to ${planName} Plan!`, "success");
       closeModal(dom.pricingModal);
@@ -239,6 +237,7 @@ async function handleUpgrade(planName) {
     showToast(`Upgrade failed: ${err.message}`, "error");
   }
 }
+
 
 // ===========================================================================
 // View Controllers
@@ -274,8 +273,7 @@ function showSettingsTab(tabName) {
 // ===========================================================================
 async function loadRecentHistory() {
   try {
-    const res = await fetch('/api/history');
-    const data = await res.json();
+    const data = await fetchJson('/api/history');
     state.history = data.files || [];
 
     const enriched = state.history.filter(f => f.type === 'enriched');
@@ -310,8 +308,7 @@ async function loadRecentHistory() {
 
 async function loadBatchFile(filename) {
   try {
-    const res = await fetch(`/api/leads/file?filename=${encodeURIComponent(filename)}`);
-    const data = await res.json();
+    const data = await fetchJson(`/api/leads/file?filename=${encodeURIComponent(filename)}`);
     renderBatchResults(data);
     showResultsView();
     showToast(`Loaded: ${data.query || filename}`, 'success');
@@ -320,9 +317,10 @@ async function loadBatchFile(filename) {
       el.classList.toggle('active', el.querySelector('.recent-item-title').textContent.includes(data.query || ''));
     });
   } catch (err) {
-    showToast("Failed to load batch file", "error");
+    showToast(`Failed to load batch: ${err.message}`, "error");
   }
 }
+
 
 function renderBatchResults(data) {
   let leads = [];
@@ -495,7 +493,7 @@ async function handlePromptSubmit() {
     const comp = dom.settingCompanyName ? dom.settingCompanyName.value.trim() : "LocalReach Agency";
     const offer = dom.settingValueProp ? dom.settingValueProp.value.trim() : "custom client acquisition systems";
 
-    const res = await fetch('/api/pipeline/start', {
+    const data = await fetchJson('/api/pipeline/start', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -508,7 +506,6 @@ async function handlePromptSubmit() {
       })
     });
 
-    const data = await res.json();
     if (data.task_id) {
       state.activeTaskId = data.task_id;
       pollPipelineTask(data.task_id);
@@ -524,8 +521,7 @@ function pollPipelineTask(taskId) {
 
   state.pollTimer = setInterval(async () => {
     try {
-      const res = await fetch(`/api/pipeline/status/${taskId}`);
-      const task = await res.json();
+      const task = await fetchJson(`/api/pipeline/status/${taskId}`);
 
       dom.liveProgressBarFill.style.width = `${task.progress || 15}%`;
       dom.liveProgressPercent.textContent = `${task.progress || 15}%`;
@@ -539,6 +535,7 @@ function pollPipelineTask(taskId) {
         clearInterval(state.pollTimer);
         dom.liveProgressBanner.style.display = 'none';
         showToast("🎉 Prospects scraped & enriched successfully!", "success");
+
 
         if (task.result_data) {
           renderBatchResults(task.result_data);
@@ -670,8 +667,10 @@ async function handleExportCsv() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ leads: state.leadsData.leads })
     });
+    if (!res.ok) throw new Error(`Export failed with HTTP ${res.status}`);
 
     const blob = await res.blob();
+
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -694,7 +693,7 @@ async function handleSaveSettings() {
   const offer = dom.settingValueProp ? dom.settingValueProp.value.trim() : null;
 
   try {
-    const res = await fetch('/api/settings', {
+    const data = await fetchJson('/api/settings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -702,12 +701,11 @@ async function handleSaveSettings() {
         openai_api_key: openai || null,
         google_sheet_id: sheet || null,
         sender_name: sender,
-        company_name: comp,
+        company_name: company,
         value_prop: offer
       })
     });
 
-    const data = await res.json();
     if (data.status === 'ok') {
       showToast("Settings saved successfully!", "success");
       closeModal(dom.settingsModal);
@@ -718,11 +716,31 @@ async function handleSaveSettings() {
   }
 }
 
+
 // ===========================================================================
 // Utilities
 // ===========================================================================
+async function fetchJson(url, options = {}) {
+  const res = await fetch(url, options);
+  const text = await res.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (e) {
+    if (!res.ok) {
+      throw new Error(`Server returned HTTP ${res.status}`);
+    }
+    throw new Error("Invalid JSON response from server");
+  }
+  if (!res.ok) {
+    throw new Error(data.detail || data.message || `Server error (${res.status})`);
+  }
+  return data;
+}
+
 function openModal(m) { if (m) m.classList.add('active'); }
 function closeModal(m) { if (m) m.classList.remove('active'); }
+
 
 function copyToClipboard(text, msg = "Copied to clipboard!") {
   navigator.clipboard.writeText(text).then(() => {
